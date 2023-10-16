@@ -30,8 +30,8 @@ $$
 spd(t) = a \sin(\omega t) + b \tag{1} \\
 \text{s.t.} \ 
 \begin{cases}
-a \in \[0.780, 1.045\] \\
-\omega \in \[1.884, 2.000\] \\
+a \in [0.780, 1.045] \\
+\omega \in [1.884, 2.000] \\
 b = 2.090 - a
 \end{cases}
 $$
@@ -57,8 +57,10 @@ f(i) = -\frac{a}{\omega}\cos(i \omega \Delta t + \phi) + (2.090-a) i \Delta t + 
 $$
 
 $$
+\begin{align}
 f(i) = B \sin(i \omega \Delta t) + C \cos(i \omega \Delta t) + b i \Delta t + c, \\
 \text{s.t.} \ \omega\sqrt{B^2 + C^2} + b = 2.090 \tag{2.2}
+\end{align}
 $$
 
 可以认为该问题中共含有 4 个未知参数，若能求解所有参数，即可预测任意时刻下叶片的旋转角度。从式 $(2.2)$ 中可以发现，若已知 $\omega$ ， $f(\cdot)$ 可以表示为其余 4 个参数和已知量的线性表达式，可通过最小二乘法直接求解，于是问题的关键转化为对 $\omega$ 的求解。
@@ -82,7 +84,7 @@ $$
 
 最小二乘法用于求解如下最小二乘问题：现有线性方程 $y = f(\boldsymbol{x}) = \boldsymbol{\theta}^T \boldsymbol{x}, \ \boldsymbol{x} \in \mathbb{R}^m$ 和 $n$ 个样本 $(\boldsymbol{x}\_{i}, y_{i}), \ i \in \{0, \cdots, n-1\}$ ，求使得残差平方和 $J = \sum\limits_{i=0}^{n-1} (y_{i} - f(\boldsymbol{x}_{i}))^2$ 最小的方程参数 $\boldsymbol{\theta}$。
 
-令 $X = \[\boldsymbol{x}\_0, \cdots, \boldsymbol{x}\_{n-1}\]^T, \ Y = \[y_0, \cdots, y_{n-1}\]^T$ ，由于
+令 $X = [\boldsymbol{x}\_0, \cdots, \boldsymbol{x}\_{n-1}]^T, \ Y = [y_0, \cdots, y_{n-1}]^T$ ，由于
 
 $$
 \begin{align}
@@ -99,7 +101,7 @@ $$
 \boldsymbol{\theta} = (X^T X)^{-1} X^T Y
 $$
 
-对于大符问题，我们令 $\boldsymbol{x}_i = \[\sin(i \omega \Delta t), \cos(i \omega \Delta t), i \Delta t, 1\]^T$ ，构造
+对于大符问题，我们令 $\boldsymbol{x}_i = [\sin(i \omega \Delta t), \cos(i \omega \Delta t), i \Delta t, 1]^T$ ，构造
 
 $$
 X = \begin{pmatrix}
@@ -146,7 +148,7 @@ $$
 $$
 \begin{align}
 & \frac{\partial \|e(\boldsymbol{\omega}^{(k)}) + J_e(\boldsymbol{\omega}^{(k)})^T \Delta \boldsymbol{\omega}^{(k)}\|^2}{\partial \Delta \boldsymbol{\omega}^{(k)}} = 0 \\
-\Rightarrow \; & \Delta \boldsymbol{\omega}^{(k)} = - (J_e(\boldsymbol{\omega}^{(k)}) J_e(\boldsymbol{\omega}^{(k)})^T)^{-1} J_e(\boldsymbol{\omega}^{(k)}) e(\boldsymbol{\omega}^{(k)})
+\Rightarrow \ & \Delta \boldsymbol{\omega}^{(k)} = - (J_e(\boldsymbol{\omega}^{(k)}) J_e(\boldsymbol{\omega}^{(k)})^T)^{-1} J_e(\boldsymbol{\omega}^{(k)}) e(\boldsymbol{\omega}^{(k)})
 \end{align}
 $$
 
@@ -157,7 +159,7 @@ $$
 3. 令 $\boldsymbol{\omega}^{(k+1)} = \boldsymbol{\omega}^{(k)} + \beta \Delta \boldsymbol{\omega}^{(k)}$ ，其中 $\beta$ 为步长倍率；
 4. 重复步骤 2~3，直到 $\|\Delta \boldsymbol\omega\|^2 < \eta$ 。
 
-对于大符问题，我们令 $e(\omega) = \[e_0, \cdots, e_{n-1}\]^T, \ e_i = \alpha_i - \boldsymbol{\theta}^T \boldsymbol{x}$ ，从而有
+对于大符问题，我们令 $e(\omega) = [e_0, \cdots, e_{n-1}]^T, \ e_i = \alpha_i - \boldsymbol{\theta}^T \boldsymbol{x}$ ，从而有
 
 $$
 J_e(\omega) = \begin{pmatrix}
