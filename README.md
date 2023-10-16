@@ -97,8 +97,10 @@ $$
 求梯度，化简得 $\boldsymbol{\theta}$ 的显式解。
 
 $$
+\begin{align}
 \frac{\partial J(\boldsymbol{\theta})}{\partial \boldsymbol{\theta}} = X^T(Y - X^T \boldsymbol{\theta}) = 0 \\
 \boldsymbol{\theta} = (X^T X)^{-1} X^T Y
+\end{align}
 $$
 
 对于大符问题，我们令 $\boldsymbol{x}_i = [\sin(i \omega \Delta t), \cos(i \omega \Delta t), i \Delta t, 1]^T$ ，构造
@@ -119,7 +121,10 @@ Y = \begin{pmatrix}
 \alpha_{n-1}
 \end{pmatrix}, \ 
 \boldsymbol{\theta} = \begin{pmatrix}
-B \\ C \\ b \\ c
+B \\
+C \\
+b \\
+c
 \end{pmatrix} \\
 $$
 
@@ -196,7 +201,8 @@ $$
 
 $$
 \boldsymbol{x}_k = \begin{pmatrix}
-\mathtt{x} \\ \dot{\mathtt{x}}
+\mathtt{x} \\
+\dot{\mathtt{x}}
 \end{pmatrix}, \ 
 \boldsymbol{z}_k = \alpha_i - b t_i - c, \\
 F = \begin{pmatrix}
