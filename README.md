@@ -28,15 +28,15 @@
 
 $$
 spd(t) = a \sin(\omega t) + b \tag{1} \\
-\text{s.t.} \, 
+\text{s.t.} \ 
 \begin{cases}
-a \in [0.780, 1.045] \\
-\omega \in [1.884, 2.000] \\
+a \in \[0.780, 1.045\] \\
+\omega \in \[1.884, 2.000\] \\
 b = 2.090 - a
 \end{cases}
 $$
 
-已知过去 $n$ 个时刻的叶片角度测量值和时间序列 $(\alpha_i, t_i), \, t_i = i \Delta t, \, i \in \{0, \cdots, n-1\}$ ，求任意时刻 $t$ 时叶片的角度，并尽可能使叶片末端的位置误差小于 30mm。（以下简称为“大符问题”）
+已知过去 $n$ 个时刻的叶片角度测量值和时间序列 $(\alpha_i, t_i), \ t_i = i \Delta t, \ i \in \{0, \cdots, n-1\}$ ，求任意时刻 $t$ 时叶片的角度，并尽可能使叶片末端的位置误差小于 30mm。（以下简称为“大符问题”）
 
 ## 方案分析
 
@@ -58,7 +58,7 @@ $$
 
 $$
 f(i) = B \sin(i \omega \Delta t) + C \cos(i \omega \Delta t) + b i \Delta t + c, \\
-\text{s.t.} \, \omega\sqrt{B^2 + C^2} + b = 2.090 \tag{2.2}
+\text{s.t.} \ \omega\sqrt{B^2 + C^2} + b = 2.090 \tag{2.2}
 $$
 
 可以认为该问题中共含有 4 个未知参数，若能求解所有参数，即可预测任意时刻下叶片的旋转角度。从式 $(2.2)$ 中可以发现，若已知 $\omega$ ， $f(\cdot)$ 可以表示为其余 4 个参数和已知量的线性表达式，可通过最小二乘法直接求解，于是问题的关键转化为对 $\omega$ 的求解。
@@ -80,9 +80,9 @@ $$
 
 ### 最小二乘法
 
-最小二乘法用于求解如下最小二乘问题：现有线性方程 $y = f(\boldsymbol{x}) = \boldsymbol{\theta}^T \boldsymbol{x}, \, \boldsymbol{x} \in \mathbb{R}^m$ 和 $n$ 个样本 $(\boldsymbol{x}_i, y_i), \, i \in \{0, \cdots, n-1\}$ ，求使得残差平方和 $J = \sum_{i=0}^{n-1} (y_i - f(\boldsymbol{x}_i))^2$ 最小的方程参数 $\boldsymbol{\theta}$。
+最小二乘法用于求解如下最小二乘问题：现有线性方程 $y = f(\boldsymbol{x}) = \boldsymbol{\theta}^T \boldsymbol{x}, \ \boldsymbol{x} \in \mathbb{R}^m$ 和 $n$ 个样本 $(\boldsymbol{x}\_{i}, y_{i}), \ i \in \{0, \cdots, n-1\}$ ，求使得残差平方和 $J = \sum\limits_{i=0}^{n-1} (y_{i} - f(\boldsymbol{x}_{i}))^2$ 最小的方程参数 $\boldsymbol{\theta}$。
 
-令 $X = [\boldsymbol{x}_0, \cdots, \boldsymbol{x}_{n-1}]^T, \, Y = [y_0, \cdots, y_{n-1}]^T$ ，由于
+令 $X = \[\boldsymbol{x}\_0, \cdots, \boldsymbol{x}\_{n-1}\]^T, \ Y = \[y_0, \cdots, y_{n-1}\]^T$ ，由于
 
 $$
 \begin{align}
@@ -99,7 +99,7 @@ $$
 \boldsymbol{\theta} = (X^T X)^{-1} X^T Y
 $$
 
-对于大符问题，我们令 $\boldsymbol{x}_i = [\sin(i \omega \Delta t), \cos(i \omega \Delta t), i \Delta t, 1]^T$ ，构造
+对于大符问题，我们令 $\boldsymbol{x}_i = \[\sin(i \omega \Delta t), \cos(i \omega \Delta t), i \Delta t, 1\]^T$ ，构造
 
 $$
 X = \begin{pmatrix}
@@ -108,14 +108,14 @@ X = \begin{pmatrix}
 \sin(2\omega \Delta t) & \cos(2\omega \Delta t) & 2 \Delta t & 1 \\
 \vdots & \vdots & \vdots & \vdots \\
 \sin((n-1)\omega \Delta t) & \cos((n-1)\omega \Delta t) & (n-1) \Delta t & 1
-\end{pmatrix}, \,
+\end{pmatrix}, \ 
 Y = \begin{pmatrix}
 \alpha_0 \\
 \alpha_1 \\
 \alpha_2 \\
 \vdots \\
 \alpha_{n-1}
-\end{pmatrix}, \,
+\end{pmatrix}, \ 
 \boldsymbol{\theta} = \begin{pmatrix}
 B \\ C \\ b \\ c
 \end{pmatrix} \\
@@ -157,7 +157,7 @@ $$
 3. 令 $\boldsymbol{\omega}^{(k+1)} = \boldsymbol{\omega}^{(k)} + \beta \Delta \boldsymbol{\omega}^{(k)}$ ，其中 $\beta$ 为步长倍率；
 4. 重复步骤 2~3，直到 $\|\Delta \boldsymbol\omega\|^2 < \eta$ 。
 
-对于大符问题，我们令 $e(\omega) = [e_0, \cdots, e_{n-1}]^T, \, e_i = \alpha_i - \boldsymbol{\theta}^T \boldsymbol{x}$ ，从而有
+对于大符问题，我们令 $e(\omega) = \[e_0, \cdots, e_{n-1}\]^T, \ e_i = \alpha_i - \boldsymbol{\theta}^T \boldsymbol{x}$ ，从而有
 
 $$
 J_e(\omega) = \begin{pmatrix}
@@ -182,25 +182,25 @@ $$
 
 $$
 \begin{align}
-\bar{\boldsymbol{x}_{k+1}} &= F \boldsymbol{x}_k \\
+\bar{\boldsymbol{x}\_{k+1}} &= F \boldsymbol{x}\_k \\
 \bar{P_{k+1}} &= F P_k F^T + Q \\
 K_{k+1} &= \frac{\bar{P_{k+1}} H^T}{H \bar{P_{k+1}} H^T + R} \\
-\boldsymbol{x}_{k+1} &= \bar{\boldsymbol{x}_{k+1}} + K_{k+1} (\boldsymbol{z}_{k+1} - H \bar{\boldsymbol{x}_{k+1}}) \\
+\boldsymbol{x}\_{k+1} &= \bar{\boldsymbol{x}\_{k+1}} + K_{k+1} (\boldsymbol{z}\_{k+1} - H \bar{\boldsymbol{x}\_{k+1}}) \\
 P_{k+1} &= (I - K_{k+1} H) \bar{P_{k+1}}
 \end{align}
 $$
 
-对于大符问题，为了拟合原方程中的正弦分量，联想到简谐振动 $m\ddot{x} + kx = 0$ 的解为 $x(t) = A \sin(\omega t + \phi), \, \omega = \sqrt{\frac{k}{m}}$ ，构造状态空间方程如下
+对于大符问题，为了拟合原方程中的正弦分量，联想到简谐振动 $m\ddot{x} + kx = 0$ 的解为 $x(t) = A \sin(\omega t + \phi), \ \omega = \sqrt{\frac{k}{m}}$ ，构造状态空间方程如下
 
 $$
 \boldsymbol{x}_k = \begin{pmatrix}
 \mathtt{x} \\ \dot{\mathtt{x}}
-\end{pmatrix}, \,
+\end{pmatrix}, \ 
 \boldsymbol{z}_k = \alpha_i - b t_i - c, \\
 F = \begin{pmatrix}
 1 & \Delta t \\
 -\omega^2 \Delta t & 1
-\end{pmatrix}, \,
+\end{pmatrix}, \ 
 H = \begin{pmatrix}
 1 & 0
 \end{pmatrix}
@@ -234,7 +234,7 @@ $$
 
 ### 卡尔曼滤波
 
-使用 200 帧数据通过最小二乘法求取初始值，并逐步更新参数，可有效对 $\sigma < 0.1$ 高斯噪声与 $s < 0.02, \, \sigma < 0.5$ 稀疏噪声的融合噪声进行滤波（可通过调节滤波器参数优化性能，此处实验数据仅供参考）。另外，由于初值求取的条件一般较为简陋，初值一定范围的领域内滤波器输出将有较大偏差（依据噪声决定）。
+使用 200 帧数据通过最小二乘法求取初始值，并逐步更新参数，可有效对 $\sigma < 0.1$ 高斯噪声与 $s < 0.02, \ \sigma < 0.5$ 稀疏噪声的融合噪声进行滤波（可通过调节滤波器参数优化性能，此处实验数据仅供参考）。另外，由于初值求取的条件一般较为简陋，初值一定范围的领域内滤波器输出将有较大偏差（依据噪声决定）。
 
 理论上来说，线性分量亦可加入状态量中，但实际测试效果不佳，故不予采纳。若 $\omega$ 取值不精准，滤波器将在数个周期内产生明显可见的偏差，故不可摒弃对 $\omega$ 的优化求解。
 
