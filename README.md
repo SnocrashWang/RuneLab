@@ -82,9 +82,9 @@ $$
 
 ### 最小二乘法
 
-最小二乘法用于求解如下最小二乘问题：现有线性方程 $y = f(\boldsymbol{x}) = \boldsymbol{\theta}^T \boldsymbol{x}, \ \boldsymbol{x} \in \mathbb{R}^m$ 和 $n$ 个样本 $(\boldsymbol{x}\_{i}, y_{i}), \ i \in \{0, \cdots, n-1\}$ ，求使得残差平方和 $J = \sum\limits_{i=0}^{n-1} (y_{i} - f(\boldsymbol{x}_{i}))^2$ 最小的方程参数 $\boldsymbol{\theta}$。
+最小二乘法用于求解如下最小二乘问题：现有线性方程 $y = f(\boldsymbol{x}) = \boldsymbol{\theta}^T \boldsymbol{x}, \ \boldsymbol{x} \in \mathbb{R}^m$ 和 $n$ 个样本 $(\boldsymbol{x}_{i}, y_{i}), \ i \in \{0, \cdots, n-1\}$ ，求使得残差平方和 $J = \sum\limits_{i=0}^{n-1} (y_{i} - f(\boldsymbol{x}_{i}))^2$ 最小的方程参数 $\boldsymbol{\theta}$。
 
-令 $X = [\boldsymbol{x}\_0, \cdots, \boldsymbol{x}\_{n-1}]^T, \ Y = [y_0, \cdots, y_{n-1}]^T$ ，由于
+令 $X = [\boldsymbol{x}_0, \cdots, \boldsymbol{x}_{n-1}]^T, \ Y = [y_0, \cdots, y_{n-1}]^T$ ，由于
 
 $$
 \begin{align}
@@ -189,10 +189,10 @@ $$
 
 $$
 \begin{align}
-\bar{\boldsymbol{x}\_{k+1}} &= F \boldsymbol{x}\_k \\
+\bar{\boldsymbol{x}_{k+1}} &= F \boldsymbol{x}_k \\
 \bar{P_{k+1}} &= F P_k F^T + Q \\
 K_{k+1} &= \frac{\bar{P_{k+1}} H^T}{H \bar{P_{k+1}} H^T + R} \\
-\boldsymbol{x}\_{k+1} &= \bar{\boldsymbol{x}\_{k+1}} + K_{k+1} (\boldsymbol{z}\_{k+1} - H \bar{\boldsymbol{x}\_{k+1}}) \\
+\boldsymbol{x}_{k+1} &= \bar{\boldsymbol{x}_{k+1}} + K_{k+1} (\boldsymbol{z}_{k+1} - H \bar{\boldsymbol{x}_{k+1}}) \\
 P_{k+1} &= (I - K_{k+1} H) \bar{P_{k+1}}
 \end{align}
 $$
