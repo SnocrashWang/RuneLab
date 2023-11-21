@@ -8,8 +8,8 @@ end
 
 % 噪声指数
 pose_noise = 0.;
-gauss_noise = 0.2;
-sparse_noise = [0.05, 0.5];    % density, sigma                                                 
+gauss_noise = 0.05;
+sparse_noise = [0.00, 0.5];    % density, sigma                                                 
 
 
 % 加入噪声和稳态误差

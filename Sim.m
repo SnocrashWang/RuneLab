@@ -10,13 +10,12 @@ data_len = 600;
 predict_len = 30;
 acc_rate = 10;
 down_rate = 5;
-% 0 for GNpure, 1 for GN, 2 for FFT
+% 0 for GN, 1 for GN_alter, 2 for FFT
 method = 0
 
 %% 数据记录
-Para = zeros(5,sim_time);
-Para_bar = zeros(5,sim_time);
-X_bar = zeros(4,sim_time);
+Para = zeros(4,sim_time);
+Para_bar = zeros(4,sim_time);
 Omega = zeros(1,sim_time);
 Omega_bar = zeros(1,sim_time);
 Dist = zeros(1,sim_time);
@@ -40,7 +39,7 @@ for i = 1:sim_time
 
     %% 拟合
     if method == 0              % 高斯牛顿法
-        [x, omega_arr] = GNpure(angle_input, time_input, omega);
+        [para, omega_arr] = GN(angle_input, time_input, omega);
         omega = omega_arr(end);
         % 迭代方向错误
         if (param(2)-omega)/(param(2)-omega_arr(1)) > 1
@@ -52,7 +51,7 @@ for i = 1:sim_time
 %             plot((1:length(omega_arr)), ones(1, length(omega_arr)) * param(2), "green");
         end
     elseif method == 1          % 交替迭代高斯牛顿法
-        [x, omega_arr] = GN(angle_input, time_input, omega);
+        [para, omega_arr] = GN_alter(angle_input, time_input, omega);
         omega = omega_arr(end);
         % 迭代方向错误
         if (param(2)-omega)/(param(2)-omega_arr(1)) > 1
@@ -65,24 +64,20 @@ for i = 1:sim_time
         end
     elseif method == 2          % 带窗傅里叶变换法
         omega = FFT(spd_input);
-        x = OLS(angle_input, time_input, omega);
+        para = OLS(angle_input, time_input, omega);
     end
 
-    X_bar(:,i) = x;
+    Para_bar(:,i) = para;
     Omega(i) = param(2);
     Omega_bar(i) = omega;
     pre_idx = cur_time+data_len+predict_len;
-    Angle(i) = x(1)*sin(omega*time(pre_idx)) + x(2)*cos(omega*time(pre_idx)) + x(3)*time(pre_idx) + x(4);
+    Angle(i) = -para(1) / para(2) * cos(para(2) * time(pre_idx) + para(3)) + (2.090 - para(1)) * time(pre_idx) + para(4);
     Dist(i) = (Angle(i) - angle_ori(pre_idx)) * 700;
     fprintf("At simulator time %4d ms, iteration: %3d, omega: %.4f -> %.4f, predict point err: %7.4f\n", cur_time+data_len, length(omega_arr)-1, Omega(i), Omega_bar(i), Dist(i));
 end
 
 %% 数据统计
 fprintf("RMSE of omega: %.6f, RMSE of predict point err: %.6f\n", RMSE(Omega - Omega_bar), RMSE(Dist));
-if method == 1
-    AB = sqrt(X_bar(1,:).^2 + X_bar(2,:).^2) .* Omega_bar + X_bar(3,:);
-    fprintf("RMSE of (a+b): %.6f\n", RMSE(AB - 2.090));
-end
 if method == 0 || method == 1
     fprintf("%.2f%% of tests have a wrong optimizing direction\n", wrong_cnt/sim_time*100);
 end

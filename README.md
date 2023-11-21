@@ -99,7 +99,7 @@ $$
 \boldsymbol{\theta} = (X^T X)^{-1} X^T Y
 $$
 
-对于大符问题，我们令 $\boldsymbol{x}_i = \[\sin(i \omega \Delta t), \cos(i \omega \Delta t), i \Delta t, 1\]^T$ ，构造
+对于大符问题，我们令 $\boldsymbol{x}_i = \left \lbrack\sin(i \omega \Delta t), \cos(i \omega \Delta t), i \Delta t, 1\right \rbrack^T$ ，构造
 
 $$
 X = \begin{pmatrix}
